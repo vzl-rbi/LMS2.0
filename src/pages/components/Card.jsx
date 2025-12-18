@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 const Card = ({ book }) => {
   const [count, setCount] = useState(0);
 
@@ -16,7 +17,9 @@ const Card = ({ book }) => {
       <div className="flex justify-center mb-2">
         <img
           src={
-            "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+            book.imageUrl
+              ? book.imageUrl
+              : "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
           }
           alt={book.bookName}
           className="h-40 object-contain"
@@ -35,21 +38,28 @@ const Card = ({ book }) => {
         ${book.bookPrice}
       </p>
 
-      <div className="mt-3 flex justify-end">
-        {count === 0 ? (
-          <button
-            onClick={increment}
-            className="bg-indigo-100 border border-indigo-300 px-4 py-1 rounded text-indigo-600"
-          >
-            Add
+      <div className="mt-3 flex justify-between">
+        <div>
+          <button className="cursor-pointer">
+            <Link to={`/book/${book._id}`}>See More</Link>
           </button>
-        ) : (
-          <div className="flex items-center gap-2 bg-indigo-200 px-2 rounded">
-            <button onClick={decrement}>-</button>
-            <span>{count}</span>
-            <button onClick={increment}>+</button>
-          </div>
-        )}
+        </div>
+        <div>
+          {count === 0 ? (
+            <button
+              onClick={increment}
+              className="bg-indigo-100 border border-indigo-300 px-4 py-1 rounded text-indigo-600 cursor-pointer"
+            >
+              Add
+            </button>
+          ) : (
+            <div className="flex items-center gap-2 bg-indigo-200 px-2 rounded">
+              <button onClick={decrement}>-</button>
+              <span>{count}</span>
+              <button onClick={increment}>+</button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
