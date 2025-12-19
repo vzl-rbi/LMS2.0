@@ -31,3 +31,35 @@ return (
 <button onClick={handleClick}>See More</button>
 );
 }
+
+## `const formData = new FormData()`
+
+alternative
+{
+bookName,
+authorName,
+bookPrice,
+isbnNumber,
+publication,
+publicationAt,
+image,
+},
+{
+headers: {
+"Content-Type": "multipart/form-data",
+},
+}
+
+## alternative way
+
+const handleSubmit = async (e) => {
+e.preventDefault();
+const formData = new FormData()
+formData.append('bookName', bookName)
+formData.append('bookPrice', bookPrice)
+formData.append('authorName', authorName)
+formData.append('isbnNumber', isbnNumber)
+const res = await axios.post(
+"http://localhost:8000/book", formData
+);
+};
