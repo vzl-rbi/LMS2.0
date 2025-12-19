@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddBook = () => {
+  /*
   const [bookName, setBookName] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [bookPrice, setBookprice] = useState("");
@@ -30,7 +32,67 @@ const AddBook = () => {
       }
     );
   };
+  */
+  //alternative way of commented code
+  const navigate = useNavigate();
+  const [data, setData] = useState({
+    bookName: "",
+    authorName: "",
+    bookPrice: "",
+    isbnNumber: "",
+    publishedAt: "",
+    publication: "",
+  });
+  const [image, setImage] = useState(null);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
 
+  // alternative
+  /*
+   const handleChange = (e) => {
+    setData({ ...form, [e.target.name]: e.target.value });
+  };
+  */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    //Yo talako validation backend tira garda ramro //Don't trust frontend too much
+    if (
+      !data.bookName ||
+      !data.authorName ||
+      !data.bookPrice ||
+      !data.isbnNumber ||
+      !data.publication ||
+      !image
+    ) {
+      alert("All fields are required");
+      return;
+    }
+
+    const formData = new FormData();
+    // console.log(Object.entries(data));
+    Object.entries(data).forEach(([Key, value]) => {
+      // console.log(Key, value);
+      formData.append(Key, value);
+    });
+    formData.append("image", image);
+    try {
+      await axios.post("http://localhost:8000/book", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to add book");
+    }
+  };
   return (
     <>
       <Navbar />
@@ -43,7 +105,7 @@ const AddBook = () => {
             name="bookName"
             placeholder="Book Name"
             className="w-full border px-3 py-2 rounded"
-            onChange={(e) => setBookName(e.target.value)}
+            onChange={handleChange}
           />
 
           <input
@@ -51,7 +113,7 @@ const AddBook = () => {
             name="authorName"
             placeholder="Author Name"
             className="w-full border px-3 py-2 rounded"
-            onChange={(e) => setAuthorName(e.target.value)}
+            onChange={handleChange}
           />
 
           <input
@@ -61,7 +123,7 @@ const AddBook = () => {
             // value={form.bookPrice}
             // onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
-            onChange={(e) => setBookprice(e.target.value)}
+            onChange={handleChange}
           />
 
           <input
@@ -71,7 +133,7 @@ const AddBook = () => {
             // value={form.isbnNumber}
             // onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
-            onChange={(e) => setIsbnNumber(e.target.value)}
+            onChange={handleChange}
           />
 
           <input
@@ -81,7 +143,7 @@ const AddBook = () => {
             // value={form.publication}
             // onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
-            onChange={(e) => setPublication(e.target.value)}
+            onChange={handleChange}
           />
 
           <input
@@ -90,7 +152,7 @@ const AddBook = () => {
             // value={form.publishedAt}
             // onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
-            onChange={(e) => setPublicationAt(e.target.value)}
+            onChange={handleChange}
           />
 
           <input
