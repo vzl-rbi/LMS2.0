@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 
@@ -86,12 +86,20 @@ const SingleBook = () => {
         <p className="text-indigo-600 text-xl font-bold mt-4">
           ₹{book.bookPrice}
         </p>
-        <button
-          onClick={handleDelete}
-          className="flex justify-end text-xl w-full  cursor-pointer text-red-600 hover:text-red-800"
-        >
-          Delete
-        </button>
+        <div className="flex justify-between items-center">
+          <Link to={`/editBook/${book._id}`} className="w-full mr-2">
+            <button className="text-xl w-full cursor-pointer p-1 mt-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+              Edit
+            </button>
+          </Link>
+
+          <button
+            onClick={handleDelete}
+            className="text-xl w-full cursor-pointer p-1 mt-1 text-white bg-red-600 rounded hover:bg-red-700 transition-colors"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </>
   );

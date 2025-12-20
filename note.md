@@ -63,3 +63,13 @@ const res = await axios.post(
 "http://localhost:8000/book", formData
 );
 };
+
+## Book Deleted
+
+WHY THIS WORKS
+
+axios.delete() → hits my backend route
+
+window.confirm() → prevents accidental deletes
+
+Redirect after delete → user doesn’t stay on dead page
