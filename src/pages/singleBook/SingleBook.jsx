@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 
 const SingleBook = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [book, setBook] = useState(null);
 
@@ -36,6 +37,21 @@ const SingleBook = () => {
     : book.imageUrl
     ? `http://localhost:8000/${book.imageUrl}`
     : "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c";
+
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this book?"
+    );
+    if (!confirmDelete) return;
+    try {
+      await axios.delete(`http://localhost:8000/book/${id}`);
+      alert("Book deleted successfully");
+      navigate("/");
+    } catch (error) {
+      console.log("Book Delete Error!!", error);
+      alert("Book deleted Error");
+    }
+  };
 
   return (
     <>
@@ -70,6 +86,12 @@ const SingleBook = () => {
         <p className="text-indigo-600 text-xl font-bold mt-4">
           ₹{book.bookPrice}
         </p>
+        <button
+          onClick={handleDelete}
+          className="flex justify-end text-xl w-full  cursor-pointer text-red-600 hover:text-red-800"
+        >
+          Delete
+        </button>
       </div>
     </>
   );
