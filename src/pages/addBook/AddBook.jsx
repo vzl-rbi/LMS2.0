@@ -81,7 +81,7 @@ const AddBook = () => {
     });
     formData.append("image", image);
     try {
-      await axios.post("http://localhost:8000/book", formData, {
+      await axios.post("https://crud-mern2-0-1.onrender.com/book", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

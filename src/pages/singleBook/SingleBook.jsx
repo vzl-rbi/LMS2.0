@@ -47,7 +47,7 @@ const SingleBook = () => {
     );
     if (!confirmDelete) return;
     try {
-      await axios.delete(`http://localhost:8000/book/${id}`);
+      await axios.delete(`https://crud-mern2-0-1.onrender.com/book/${id}`);
       alert("Book deleted successfully");
       navigate("/");
     } catch (error) {
